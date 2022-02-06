@@ -92,7 +92,9 @@ COPY init-dbus.sh /usr/local/share/
 RUN mkdir -p /var/run/dbus \
 	&& chmod +x /usr/local/share/init-dbus.sh
 
-USER builduser
-WORKDIR /home/builduser
+# Github action need root user
+# https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+# USER builduser
+# WORKDIR /home/builduser
 
 ENTRYPOINT ["/usr/local/share/init-dbus.sh"]

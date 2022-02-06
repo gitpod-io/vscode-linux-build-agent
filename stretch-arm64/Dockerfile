@@ -47,6 +47,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install -y yarn
 
+# Add backports
+# Required for github action https://github.com/actions/checkout/issues/126#issuecomment-570288731
+RUN echo "deb http://deb.debian.org/debian stretch-backports main" | sudo tee -a /etc/apt/sources.list.d/backports.list
+RUN apt-get update && apt-get install -y -t stretch-backports git git-man
+
 ENV AS=/usr/bin/aarch64-linux-gnu-as \
   AR=/usr/bin/aarch64-linux-gnu-ar \
   CC=/usr/bin/aarch64-linux-gnu-gcc \
