@@ -77,5 +77,9 @@ RUN sudo mkdir -p /var/run/dbus
 RUN gcc --version
 RUN g++ --version
 
-USER builduser
-WORKDIR /home/builduser
+# Github action need root user
+# https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+# USER builduser
+# WORKDIR /home/builduser
+
+ENTRYPOINT ["/usr/local/share/init-dbus.sh"]
