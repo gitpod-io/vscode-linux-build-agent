@@ -1,11 +1,11 @@
-FROM multiarch/ubuntu-core:armhf-xenial
+FROM ubuntu:xenial
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
-  gcc-multilib \
-  g++-multilib \
+  # gcc-multilib \
+  # g++-multilib \
   git \
   # dpkg-dev \
   zip \
@@ -35,12 +35,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \
   wget \
   apt-transport-https \
-  unzip
+  unzip \
+  bash \
+  apt apt-utils
+
+SHELL [ "/bin/bash", "-c" ]
 
 # Node
-RUN curl -fsSLO --compressed https://nodejs.org/dist/v10.11.0/node-v10.11.0-linux-armv6l.tar.xz
-RUN tar --strip-components=1 -xJf node-v10.11.0-linux-armv6l.tar.xz -C /usr/local --no-same-owner
-RUN rm node-v10.11.0-linux-armv6l.tar.xz
+# RUN export ARCH=`dpkg --print-architecture` && \
+#     if [[ "$ARCH" == "amd64" ]]; then export NODEARCH="x64"; else export NODEARCH="$ARCH"; fi && \
+#     curl -fsSLO --compressed "https://nodejs.org/dist/v10.11.0/node-v10.11.0-linux-${ARCH}.tar.xz" && \
+#     tar --strip-components=1 -xJf "node-v10.11.0-linux-${ARCH}.tar.xz" -C /usr/local --no-same-owner && \
+#     rm "node-v10.11.0-linux-${ARCH}.tar.xz"
+RUN curl -fsSLO https://deb.nodesource.com/setup_10.x && \
+    chmod +x setup_10.x && ./setup_10.x && \
+    rm setup_10.x && \
+    apt-get update && \
+    apt-get install -y nodejs
 
 # Yarn
 RUN curl -fsSLO --compressed https://yarnpkg.com/downloads/1.10.1/yarn-v1.10.1.tar.gz

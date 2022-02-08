@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:bionic
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -26,9 +26,10 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     createrepo \
     curl \
-    g++-multilib \
-    gcc-5 \
-    g++-5 \
+#    g++-multilib \
+#    gcc-5 \
+#    g++-5 \
+    gcc g++ \
     git \
     gnome-keyring \
     iproute2 \
@@ -57,20 +58,30 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     tzdata \
     unzip \
+    bash \
   && curl https://chromium.googlesource.com/chromium/src/+/HEAD/build/install-build-deps.sh\?format\=TEXT | base64 --decode | cat > /setup/install-build-deps.sh \
   && chmod +x /setup/install-build-deps.sh \
   && bash /setup/install-build-deps.sh --syms --no-prompt --no-chromeos-fonts --no-arm --no-nacl \
   && rm -rf /var/lib/apt/lists/*
 
+SHELL [ "/bin/bash", "-c" ]
+
 # Install older gcc toolchain from Xenial
-RUN echo "deb http://dk.archive.ubuntu.com/ubuntu/ xenial main"  | tee -a /etc/apt/sources.list
-RUN echo "deb http://dk.archive.ubuntu.com/ubuntu/ xenial universe" | tee -a /etc/apt/sources.list
+RUN export ARCH=`dpkg --print-architecture` && \
+    if [[ "$ARCH" == "amd64" ]] || [[ "$ARCH" == "i386" ]]; then \
+        echo "deb http://archive.ubuntu.com/ubuntu/ xenial main" | tee -a /etc/apt/sources.list; \
+        echo "deb http://archive.ubuntu.com/ubuntu/ xenial universe" | tee -a /etc/apt/sources.list; \
+    else \
+        echo "deb http://ports.ubuntu.com/ubuntu-ports/ xenial main" | tee -a /etc/apt/sources.list; \
+        echo "deb http://ports.ubuntu.com/ubuntu-ports/ xenial universe" | tee -a /etc/apt/sources.list; \
+    fi
 
 RUN apt-get update && apt-get install -y \
-    gcc-4.9 \
-    g++-4.9 \
-    gcc-4.8 \
-    g++-4.8
+    #gcc-4.9 \
+    #g++-4.9 \
+    #gcc-4.8 \
+    #g++-4.8
+    gcc g++
 
 # Yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -82,9 +93,13 @@ RUN echo 'builduser ALL=NOPASSWD: ALL' >> /etc/sudoers.d/50-builduser \
   && echo 'Defaults    env_keep += "DEBIAN_FRONTEND"' >> /etc/sudoers.d/env_keep
 
 # Dotnet
-RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN apt-get update && apt-get install -y dotnet-sdk-2.1
+#RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+#RUN dpkg -i packages-microsoft-prod.deb
+#RUN apt-get update && apt-get install -y dotnet-sdk-2.1
+
+# TODO: Install Dotnet - I had to remove it as it doesn't support arm64 in the deb package.
+# I'll try to install it with other methods soon.
+#   - RedstoneWizard08
 
 COPY init-dbus.sh /usr/local/share/
 
