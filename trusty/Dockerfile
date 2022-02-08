@@ -8,8 +8,9 @@ RUN add-apt-repository ppa:git-core/ppa -y
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
-  gcc-multilib \
-  g++-multilib \
+#  gcc-multilib \
+#  g++-multilib \
+  gcc g++ \
   git \
   dpkg-dev \
   zip \
@@ -45,9 +46,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   unzip
 
 # Dotnet
-RUN wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN apt-get update && apt-get install -y dotnet-sdk-2.1
+#RUN wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb
+#RUN dpkg -i packages-microsoft-prod.deb
+#RUN apt-get update && apt-get install -y dotnet-sdk-2.1
 
 # Xvfb
 # Thanks https://medium.com/@griggheo/running-headless-selenium-webdriver-tests-in-docker-containers-342fdbabf756

@@ -51,4 +51,4 @@ ENV LC_ALL="en_US.UTF-8"
 ENV PATH="/snap/bin:$PATH"
 ENV SNAP="/snap/snapcraft/current"
 ENV SNAP_NAME="snapcraft"
-ENV SNAP_ARCH="amd64"
+RUN export SNAP_ARCH=$(dpkg --print-architecture)

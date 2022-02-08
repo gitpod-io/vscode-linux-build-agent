@@ -1,8 +1,8 @@
 FROM debian:stretch
 
-RUN dpkg --add-architecture armhf
+#RUN dpkg --add-architecture arm64
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  crossbuild-essential-armhf \
+#  crossbuild-essential-arm64 \
   git \
   pkg-config \
   fakeroot \
@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   sudo \
   apt-transport-https \
   ca-certificates \
-  libx11-dev:armhf \
-  libx11-xcb-dev:armhf \
-  libxkbfile-dev:armhf \
-  libsecret-1-dev:armhf \
+  libx11-dev \
+  libx11-xcb-dev \
+  libxkbfile-dev \
+  libsecret-1-dev \
   curl \
   gnupg \
   unzip \
@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libc6-dev \
   libbz2-dev \
   libffi-dev \
-  zlib1g-dev
+  zlib1g-dev \
+  cpp gcc g++
 
 # Compile python3.9 from source
 RUN curl -O https://www.python.org/ftp/python/3.9.4/Python-3.9.4.tar.xz
@@ -52,11 +53,11 @@ RUN apt-get update && apt-get install -y yarn
 RUN echo "deb http://deb.debian.org/debian stretch-backports main" | sudo tee -a /etc/apt/sources.list.d/backports.list
 RUN apt-get update && apt-get install -y -t stretch-backports git git-man
 
-ENV AS=/usr/bin/arm-linux-gnueabihf-as \
-  AR=/usr/bin/arm-linux-gnueabihf-ar \
-  CC=/usr/bin/arm-linux-gnueabihf-gcc \
-  CPP=/usr/bin/arm-linux-gnueabihf-cpp \
-  CXX=/usr/bin/arm-linux-gnueabihf-g++ \
-  LD=/usr/bin/arm-linux-gnueabihf-ld \
-  FC=/usr/bin/arm-linux-gnueabihf-gfortran \
-  PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
+#ENV AS=/usr/bin/aarch64-linux-gnu-as \
+#  AR=/usr/bin/aarch64-linux-gnu-ar \
+ # CC=/usr/bin/aarch64-linux-gnu-gcc \
+ # CPP=/usr/bin/aarch64-linux-gnu-cpp \
+ # CXX=/usr/bin/aarch64-linux-gnu-g++ \
+ # LD=/usr/bin/aarch64-linux-gnu-ld \
+ # FC=/usr/bin/aarch64-linux-gnu-gfortran \
+ # PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig
