@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   curl \
   gnupg \
   unzip \
+  jq \
   # Dependencies for building python from source
   build-essential \
   libreadline-gplv2-dev \

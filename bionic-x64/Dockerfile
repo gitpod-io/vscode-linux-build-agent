@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     tzdata \
     unzip \
+    jq \
   && curl https://chromium.googlesource.com/chromium/src/+/HEAD/build/install-build-deps.sh\?format\=TEXT | base64 --decode | cat > /setup/install-build-deps.sh \
   && chmod +x /setup/install-build-deps.sh \
   && bash /setup/install-build-deps.sh --syms --no-prompt --no-chromeos-fonts --no-arm --no-nacl \
