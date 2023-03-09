@@ -1,4 +1,4 @@
-ARG REPO=mcr.microsoft.com/mirror/docker/library/centos
+ARG REPO=centos
 ARG TAG=7
 FROM ${REPO}:${TAG}
 

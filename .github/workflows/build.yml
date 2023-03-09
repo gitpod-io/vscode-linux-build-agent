@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [bionic-x64, stretch-arm64, stretch-armhf, centos7-devtoolset8-x64]
+        arch: [bionic-x64, buster-arm64, buster-armhf, centos7-devtoolset8-x64]
 
     steps:
       - uses: actions/checkout@v2
