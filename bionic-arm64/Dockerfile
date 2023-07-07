@@ -1,4 +1,4 @@
-ARG REPO=mcr.microsoft.com/mirror/docker/library/ubuntu
+ARG REPO=ubuntu
 ARG TAG=18.04
 FROM ${REPO}:${TAG}
 
@@ -30,7 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libsecret-1-dev:arm64 \
   curl \
   gnupg \
-  unzip
+  unzip \
+  jq
 
 # Set python3 as default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
