@@ -1,4 +1,4 @@
-ARG REPO=mcr.microsoft.com/mirror/docker/library/ubuntu
+ARG REPO=ubuntu
 ARG TAG=18.04
 FROM ${REPO}:${TAG}
 
@@ -34,7 +34,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libkrb5-dev:armhf \
   curl \
   gnupg \
-  unzip
+  unzip \
+  jq
 
 # No Sudo Prompt
 RUN echo 'builduser ALL=NOPASSWD: ALL' >> /etc/sudoers.d/50-builduser \

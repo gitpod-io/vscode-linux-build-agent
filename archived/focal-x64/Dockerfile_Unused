@@ -1,4 +1,4 @@
-ARG REPO=mcr.microsoft.com/mirror/docker/library/ubuntu
+ARG REPO=ubuntu
 ARG TAG=20.04
 FROM ${REPO}:${TAG}
 
@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     tzdata \
     unzip \
+    jq \
   && curl https://chromium.googlesource.com/chromium/src/+/HEAD/build/install-build-deps.sh\?format\=TEXT | base64 --decode | cat > /setup/install-build-deps.sh \
   && curl https://chromium.googlesource.com/chromium/src/+/HEAD/build/install-build-deps.py\?format\=TEXT | base64 --decode | cat > /setup/install-build-deps.py \
   # Remove snapcraft to avoid issues on docker build
@@ -82,5 +83,7 @@ RUN sudo mkdir -p /var/run/dbus
 RUN gcc --version
 RUN g++ --version
 
-USER builduser
-WORKDIR /home/builduser
+# Github action need root user
+# https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+# USER builduser
+# WORKDIR /home/builduser
