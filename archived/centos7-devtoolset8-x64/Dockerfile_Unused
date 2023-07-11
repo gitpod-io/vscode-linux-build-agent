@@ -19,9 +19,8 @@ RUN yum install -y centos-release-scl-rh && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
 
-# install nodejs
-RUN yum install https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y
-RUN yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
+# update npm and install yarn
+RUN npm install -g "npm@9.5.1"
 RUN npm install -g yarn
 RUN npm install -g node-gyp
 
