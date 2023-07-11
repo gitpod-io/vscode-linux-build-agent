@@ -23,7 +23,7 @@ RUN yum install -y centos-release-scl-rh && \
     yum -y clean all --enablerepo='*'
 
 # update npm and install yarn
-RUN npm install -g npm@latest
+RUN npm install -g "npm@9.5.1"
 RUN npm install -g yarn
 
 ENV PATH=/opt/rh/devtoolset-8/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
