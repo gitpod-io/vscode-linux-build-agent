@@ -4,9 +4,6 @@ FROM ${REPO}:${TAG}
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Latest stable git
-RUN add-apt-repository ppa:git-core/ppa -y
-
 # ubuntu keeps its i386/amd64 and other architecture repos separate
 # the default i386/amd64 packages can be found in http://archive.ubuntu.com while all other architectures are in http://ports.ubuntu.com/
 # add the required repos for armhf/arm64 and only fetch i386/amd64 from archive.ubuntu.com (to prevent apt from erroring about missing architecture support)
@@ -15,6 +12,11 @@ RUN echo "deb [arch=arm64,armhf] http://ports.ubuntu.com/ bionic main universe m
 RUN echo "deb [arch=arm64,armhf] http://ports.ubuntu.com/ bionic-security main universe multiverse restricted" | tee -a /etc/apt/sources.list
 RUN echo "deb [arch=arm64,armhf] http://ports.ubuntu.com/ bionic-updates main universe multiverse restricted" | tee -a /etc/apt/sources.list
 RUN dpkg --add-architecture arm64
+
+# Latest stable git
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository ppa:git-core/ppa -y
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
   gcc-8-aarch64-linux-gnu \
   g++-8-aarch64-linux-gnu \
