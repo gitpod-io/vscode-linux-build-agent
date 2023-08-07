@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [focal-x64, bionic-arm64, bionic-armhf, centos7-devtoolset8-x64, centos7-devtoolset8-arm64]
+        arch: [bionic-x64, bionic-arm64, bionic-armhf, centos7-devtoolset8-x64, centos7-devtoolset8-arm64]
         include:
         - arch: centos7-devtoolset8-arm64
           qemu: true

@@ -1,11 +1,11 @@
 jobs:
-- job: focal_x64
+- job: bionic_x64
   pool:
     vmImage: 'ubuntu-latest'
   steps:
   - template: build.yml
     parameters:
-      arch: focal-x64
+      arch: bionic-x64
 
 - job: centos7_devtoolset8_x64
   pool:
@@ -56,6 +56,15 @@ jobs:
   - template: build.yml
     parameters:
       arch: bionic-armhf
+
+- job: bionic_arm32v7
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - template: build.yml
+    parameters:
+      qemu: 'true'
+      arch: bionic-arm32v7
 
 - job: snapcraft_x64
   pool:
