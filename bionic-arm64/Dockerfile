@@ -4,8 +4,9 @@ FROM ${REPO}:${TAG}
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN groupadd --gid 1000 builduser \
-  && useradd --uid 1000 --gid builduser --shell /bin/bash --create-home builduser
+# Github uses uid 1001 and gid 121
+RUN groupadd --gid 121 builduser \
+  && useradd --uid 1001 --gid builduser --shell /bin/bash --create-home builduser
 
 # ubuntu keeps its i386/amd64 and other architecture repos separate
 # the default i386/amd64 packages can be found in http://archive.ubuntu.com while all other architectures are in http://ports.ubuntu.com/

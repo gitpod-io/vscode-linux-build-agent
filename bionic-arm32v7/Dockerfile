@@ -2,8 +2,9 @@ FROM arm32v7/ubuntu:bionic
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN groupadd --gid 1000 builduser \
-  && useradd --uid 1000 --gid builduser --shell /bin/bash --create-home builduser
+# Github uses uid 1001 and gid 121
+RUN groupadd --gid 121 builduser \
+  && useradd --uid 1001 --gid builduser --shell /bin/bash --create-home builduser
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   software-properties-common \
