@@ -15,7 +15,6 @@ on:
 jobs:
   build-toolchain:
     runs-on: ubuntu-latest
-    name: Build and publish Docker image
     timeout-minutes: 180
     steps:
       - name: Prepare dependencies
