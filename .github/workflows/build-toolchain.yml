@@ -1,0 +1,60 @@
+name: Build Toolchain
+on:
+  workflow_call:
+    inputs:
+      config:
+        type: string
+        required: true
+      arch:
+        type: string
+        required: true
+      pkg:
+        type: string
+        required: true
+
+jobs:
+  build-toolchain:
+    runs-on: ubuntu-latest
+    name: Build and publish Docker image
+    timeout-minutes: 180
+    steps:
+      - name: Prepare dependencies
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y gcc g++ gperf bison flex texinfo help2man make libncurses5-dev \
+          python3-dev autoconf automake libtool libtool-bin gawk wget bzip2 xz-utils unzip \
+          patch rsync meson ninja-build
+      - name: Setup crosstool-ng
+        run: |
+          set -e
+          wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.26.0.tar.bz2
+          tar -xjf crosstool-ng-1.26.0.tar.bz2
+          cd crosstool-ng-1.26.0
+          ./configure --prefix=`pwd`/out
+          make
+          make install
+      - name: Build toolchain
+        run: |
+          set -e
+          export PATH=$PATH:`pwd`/crosstool-ng-1.26.0/out/bin
+          mkdir toolchain-dir
+          cd toolchain-dir
+          cat ../${{ inputs.config }} > .config
+          ct-ng build
+      - name: Install additional libraries
+        run: |
+          set -e
+          chmod 0755 -R `pwd`/toolchain-dir/${{ inputs.pkg }}
+          ./sysroot-scripts/sysroot-creator.sh build ${{ inputs.arch }} \
+          `pwd`/toolchain-dir/${{ inputs.pkg }}/${{ inputs.pkg }}/sysroot
+      - name: Create pipeline asset
+        run: |
+          set -e
+          cd toolchain-dir
+          tar -czf ${{ inputs.pkg }}.tar.gz ${{ inputs.pkg }}
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.arch }}
+          path: toolchain-dir/${{ inputs.pkg }}.tar.gz
