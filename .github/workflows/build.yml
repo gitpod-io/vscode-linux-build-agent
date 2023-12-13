@@ -54,5 +54,4 @@ jobs:
         with:
           repository: ${{ github.repository_owner }}/vscode-linux-build-agent
           tag_name: ${{ inputs.tag }}
-          token: ${{ secrets.VSCODE_GITHUB_TOKEN }}
           files: upload/*
