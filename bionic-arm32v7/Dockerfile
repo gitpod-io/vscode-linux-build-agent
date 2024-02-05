@@ -38,8 +38,10 @@ RUN apt-get install -y nodejs
 RUN npm install -g yarn
 RUN npm install -g node-gyp
 
-USER builduser
-WORKDIR /home/builduser
+# Github action need root user
+# https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+# USER builduser
+# WORKDIR /home/builduser
 
 ENV CC=/usr/bin/gcc-8 \
   CPP=/usr/bin/cpp-8 \
