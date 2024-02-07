@@ -8,6 +8,9 @@ on:
       arch:
         type: string
         required: true
+      tuple:
+        type: string
+        required: true
       pkg:
         type: string
         required: true
@@ -45,16 +48,16 @@ jobs:
       - name: Install additional libraries
         run: |
           set -e
-          chmod 0755 -R `pwd`/toolchain-dir/${{ inputs.pkg }}
+          chmod 0755 -R `pwd`/toolchain-dir/${{ inputs.tuple }}
           ./sysroot-scripts/sysroot-creator.sh build ${{ inputs.arch }} \
-          `pwd`/toolchain-dir/${{ inputs.pkg }}/${{ inputs.pkg }}/sysroot
+          `pwd`/toolchain-dir/${{ inputs.tuple }}/${{ inputs.tuple }}/sysroot
       - name: Create pipeline asset
         run: |
           set -e
           cd toolchain-dir
-          tar -czf ${{ inputs.pkg }}.tar.gz ${{ inputs.pkg }}
+          tar -czf ${{ inputs.pkg }}.tar.gz ${{ inputs.tuple }}
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ inputs.arch }}
+          name: ${{ inputs.pkg }}
           path: toolchain-dir/${{ inputs.pkg }}.tar.gz
