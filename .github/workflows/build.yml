@@ -17,17 +17,33 @@ jobs:
         include:
           - arch: amd64
             config: x86_64-gcc-8.5.0-glibc-2.28.config
-            pkg: x86_64-linux-gnu
+            tuple: x86_64-linux-gnu
+            pkg: x86_64-linux-gnu-glibc-2.28
+          - arch: amd64
+            config: x86_64-gcc-7.5.0-glibc-2.17.config
+            tuple: x86_64-linux-gnu
+            pkg: x86_64-linux-gnu-glibc-2.17
           - arch: arm64
             config: aarch64-gcc-8.5.0-glibc-2.28.config
-            pkg: aarch64-linux-gnu
+            tuple: aarch64-linux-gnu
+            pkg: aarch64-linux-gnu-glibc-2.28
+          - arch: arm64
+            config: aarch64-gcc-7.5.0-glibc-2.17.config
+            tuple: aarch64-linux-gnu
+            pkg: aarch64-linux-gnu-glibc-2.17
           - arch: armhf
             config: armhf-gcc-8.5.0-glibc-2.28.config
-            pkg: arm-rpi-linux-gnueabihf
+            tuple: arm-rpi-linux-gnueabihf
+            pkg: arm-rpi-linux-gnueabihf-glibc-2.28
+          - arch: armhf
+            config: armhf-gcc-7.5.0-glibc-2.17.config
+            tuple: arm-rpi-linux-gnueabihf
+            pkg: arm-rpi-linux-gnueabihf-glibc-2.17
     uses: ./.github/workflows/build-toolchain.yml
     with:
       config: ${{ matrix.config }}
       arch: ${{ matrix.arch }}
+      tuple: ${{ matrix.tuple }}
       pkg: ${{ matrix.pkg }}
 
   release_toolchain:
@@ -42,9 +58,13 @@ jobs:
       - run: |
           mkdir upload
 
-          cp artifacts/amd64/x86_64-linux-gnu.tar.gz upload/x86_64-linux-gnu.tar.gz
-          cp artifacts/arm64/aarch64-linux-gnu.tar.gz upload/aarch64-linux-gnu.tar.gz
-          cp artifacts/armhf/arm-rpi-linux-gnueabihf.tar.gz upload/arm-rpi-linux-gnueabihf.tar.gz
+          cp artifacts/x86_64-linux-gnu-glibc-2.28/x86_64-linux-gnu-glibc-2.28.tar.gz upload/x86_64-linux-gnu-glibc-2.28.tar.gz
+          cp artifacts/aarch64-linux-gnu-glibc-2.28/aarch64-linux-gnu-glibc-2.28.tar.gz upload/aarch64-linux-gnu-glibc-2.28.tar.gz
+          cp artifacts/arm-rpi-linux-gnueabihf-glibc-2.28/arm-rpi-linux-gnueabihf-glibc-2.28.tar.gz upload/arm-rpi-linux-gnueabihf-glibc-2.28.tar.gz
+
+          cp artifacts/x86_64-linux-gnu-glibc-2.17/x86_64-linux-gnu-glibc-2.17.tar.gz upload/x86_64-linux-gnu-glibc-2.17.tar.gz
+          cp artifacts/aarch64-linux-gnu-glibc-2.17/aarch64-linux-gnu-glibc-2.17.tar.gz upload/aarch64-linux-gnu-glibc-2.17.tar.gz
+          cp artifacts/arm-rpi-linux-gnueabihf-glibc-2.17/arm-rpi-linux-gnueabihf-glibc-2.17.tar.gz upload/arm-rpi-linux-gnueabihf-glibc-2.17.tar.gz
 
           cd upload
           shasum -a 256 *.tar.gz > SHASUMS256.txt
