@@ -41,4 +41,4 @@ jobs:
           context: ${{ matrix.arch }}
           file: ${{ matrix.arch }}/Dockerfile
           tags: gitpod/openvscode-server-linux-build-agent:${{ matrix.arch }}
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: true
