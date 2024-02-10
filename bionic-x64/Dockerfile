@@ -4,6 +4,9 @@ FROM ${REPO}:${TAG}
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+# https://github.com/moby/moby/issues/27988#issuecomment-462809153
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
 # Github uses uid 1001 and gid 121
 RUN groupadd --gid 121 builduser \
   && useradd --uid 1001 --gid builduser --shell /bin/bash --create-home builduser \
