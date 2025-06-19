@@ -57,7 +57,7 @@ jobs:
           cd toolchain-dir
           tar -czf ${{ inputs.pkg }}.tar.gz ${{ inputs.tuple }}
       - name: Publish artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.pkg }}
           path: toolchain-dir/${{ inputs.pkg }}.tar.gz
