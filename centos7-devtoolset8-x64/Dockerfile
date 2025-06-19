@@ -14,10 +14,20 @@ ARG INSTALL_PKGS="devtoolset-8-gcc \
     krb5-devel \
     python3"
 
-RUN yum install -y centos-release-scl-rh && \
+# Fix CentOS 7 EOL repo issue
+RUN cd /etc/yum.repos.d/ && \
+    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* && \
+    yum install -y centos-release-scl-rh && \
+    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-SCLo-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-SCLo-* && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
+
+# install nodejs and npm
+RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash - && \
+    yum install -y nodejs
 
 # update npm and install yarn
 RUN npm install -g "npm@9.5.1"
