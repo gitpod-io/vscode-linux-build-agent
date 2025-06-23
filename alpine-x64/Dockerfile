@@ -1,8 +1,39 @@
-ARG REPO=mcr.microsoft.com/devcontainers/base
-ARG TAG=alpine-3.18
+ARG REPO=alpine
+ARG TAG=3.18
 FROM ${REPO}:${TAG}
 
-RUN apk add nodejs npm g++ python3 make git bash curl perl pkgconfig libsecret-dev krb5-dev
+# Install build dependencies for VS Code
+RUN apk add --no-cache \
+    nodejs \
+    npm \
+    g++ \
+    python3 \
+    make \
+    git \
+    bash \
+    curl \
+    perl \
+    pkgconfig \
+    libsecret-dev \
+    krb5-dev \
+    xvfb \
+    xvfb-run \
+    libx11-dev \
+    libxkbfile-dev \
+    libgtk-3-dev \
+    libnss3-dev \
+    libasound2-dev \
+    ca-certificates \
+    tzdata
 
+# Set up environment for GitHub Actions (root user required)
+ENV DISPLAY=:99
+ENV TEMP=/tmp
+RUN chmod a+rwx /tmp
+
+# Create working directory
 RUN mkdir -p /root/vscode
 WORKDIR /root/vscode
+
+# GitHub Actions compatibility - ensure running as root
+# No USER directive needed as container runs as root by default

@@ -1,5 +1,5 @@
 ARG RISK=stable
-ARG REPO=mcr.microsoft.com/mirror/docker/library/ubuntu
+ARG REPO=ubuntu
 ARG TAG=20.04
 
 FROM ${REPO}:${TAG} as builder
@@ -77,3 +77,7 @@ ENV SNAP="/snap/snapcraft/current"
 ENV SNAP_NAME="snapcraft"
 ENV SNAP_ARCH="amd64"
 ENV PATH="/snap/bin:/snap/snapcraft/current/usr/bin:$PATH"
+
+# GitHub Actions compatibility - ensure running as root
+# Container runs as root by default, which is required for GitHub Actions
+# https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
