@@ -101,7 +101,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [alpine-arm64, alpine-x64, snapcraft-x64]
+        arch: [alpine-arm64, alpine-x64]
         include:
         - arch: alpine-arm64
           qemu: true
