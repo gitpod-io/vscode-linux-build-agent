@@ -20,9 +20,9 @@ RUN apk add --no-cache \
     xvfb-run \
     libx11-dev \
     libxkbfile-dev \
-    libgtk-3-dev \
-    libnss3-dev \
-    libasound2-dev \
+    gtk+3.0-dev \
+    nss-dev \
+    alsa-lib-dev \
     ca-certificates \
     tzdata
 

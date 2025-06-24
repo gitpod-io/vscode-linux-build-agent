@@ -1,5 +1,5 @@
 ARG RISK=stable
-ARG REPO=ubuntu
+ARG REPO=mcr.microsoft.com/mirror/docker/library/ubuntu
 ARG TAG=20.04
 
 FROM ${REPO}:${TAG} as builder
