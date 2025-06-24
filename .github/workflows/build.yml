@@ -129,5 +129,5 @@ jobs:
         with:
           context: ${{ matrix.arch }}
           file: ${{ matrix.arch }}/Dockerfile
-          tags: vscode/vscode-linux-build-agent:${{ matrix.arch }}
+          tags: gitpod/openvscode-server-linux-build-agent:${{ matrix.arch }}
           push: ${{ inputs.dockerRelease == true }}
